@@ -43,14 +43,6 @@ jobs:
         run: |
           brew install ninja autoconf autoconf-archive automake libtool
 
-      - name: Install build tools (Windows)
-        if: runner.os == 'Windows'
-        shell: pwsh
-        run: |
-          if (-not (Get-Command ninja -ErrorAction SilentlyContinue)) {
-              choco install ninja --yes --no-progress
-          }
-
       - name: Install vcpkg
         shell: pwsh
         run: |
@@ -72,23 +64,41 @@ jobs:
           }
           "VCPKG_ROOT=$vcpkgRoot" | Out-File -FilePath $env:GITHUB_ENV -Encoding utf8 -Append
 
-      - name: Configure Release
+      - name: Configure Release (Unix)
+        if: runner.os != 'Windows'
         shell: pwsh
         run: cmake --preset vcpkg-release
 
-      - name: Build Release
+      - name: Configure Release (Windows)
+        if: runner.os == 'Windows'
+        shell: pwsh
+        run: cmake --preset vcpkg-release-windows
+
+      - name: Build Release (Unix)
+        if: runner.os != 'Windows'
         shell: pwsh
         run: cmake --build --preset vcpkg-release --parallel 2
 
-      - name: Run tests
+      - name: Build Release (Windows)
+        if: runner.os == 'Windows'
+        shell: pwsh
+        run: cmake --build --preset vcpkg-release-windows --parallel 2
+
+      - name: Run tests (Unix)
+        if: runner.os != 'Windows'
         shell: pwsh
         run: ctest --test-dir build-vcpkg-release --output-on-failure
+
+      - name: Run tests (Windows)
+        if: runner.os == 'Windows'
+        shell: pwsh
+        run: ctest --test-dir build-vcpkg-release -C Release --output-on-failure
 
       - name: Check installed command
         shell: pwsh
         run: |
           $staging = Join-Path $env:RUNNER_TEMP "vault-ci-install"
-          cmake --install build-vcpkg-release --prefix $staging
+          cmake --install build-vcpkg-release --prefix $staging --config Release
           $binary = if ($IsWindows) {
               Join-Path $staging "bin\vault.exe"
           } else {

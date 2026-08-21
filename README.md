@@ -19,7 +19,7 @@ L'import/export dédié, l'édition avancée, la suppression de dossiers et le g
 
 - C++17 ;
 - CMake 3.21 ou plus récent ;
-- Ninja ;
+- Ninja sur Linux/macOS ; Visual Studio 2022 sur Windows ;
 - un vcpkg installé et la variable `VCPKG_ROOT` configurée ;
 - les dépendances déclarées dans `vcpkg.json` : libsodium, Catch2 et FTXUI (récupérée par CMake).
 
@@ -34,6 +34,14 @@ ctest --test-dir build-vcpkg --output-on-failure
 ```
 
 La première configuration peut télécharger FTXUI. Le binaire est produit dans `build-vcpkg/vault`.
+
+Sous Windows, le preset utilise Visual Studio 2022 afin de garder la même ABI que le triplet vcpkg `x64-windows` :
+
+```powershell
+cmake --preset vcpkg-release-windows
+cmake --build --preset vcpkg-release-windows --parallel 2
+ctest --test-dir build-vcpkg-release -C Release --output-on-failure
+```
 
 ## Installer `vault` depuis une release
 

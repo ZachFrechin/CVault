@@ -20,6 +20,16 @@
                 "CMAKE_BUILD_TYPE": "Release",
                 "CMAKE_TOOLCHAIN_FILE": "$env{VCPKG_ROOT}/scripts/buildsystems/vcpkg.cmake"
             }
+        },
+        {
+            "name": "vcpkg-release-windows",
+            "displayName": "Release with vcpkg (Visual Studio)",
+            "generator": "Visual Studio 17 2022",
+            "architecture": "x64",
+            "binaryDir": "${sourceDir}/build-vcpkg-release",
+            "cacheVariables": {
+                "CMAKE_TOOLCHAIN_FILE": "$env{VCPKG_ROOT}/scripts/buildsystems/vcpkg.cmake"
+            }
         }
     ],
     "buildPresets": [
@@ -30,6 +40,11 @@
         {
             "name": "vcpkg-release",
             "configurePreset": "vcpkg-release"
+        },
+        {
+            "name": "vcpkg-release-windows",
+            "configurePreset": "vcpkg-release-windows",
+            "configuration": "Release"
         }
     ]
 }
