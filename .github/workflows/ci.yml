@@ -17,8 +17,8 @@ jobs:
       matrix:
         os:
           - ubuntu-latest
-          - macos-13
-          - macos-14
+          - macos-15-intel
+          - macos-15
           - windows-latest
 
     steps:
@@ -33,6 +33,12 @@ jobs:
               Remove-Item -LiteralPath $vcpkgRoot -Recurse -Force
           }
           git clone --depth 1 https://github.com/microsoft/vcpkg.git $vcpkgRoot
+          $manifest = Get-Content (Join-Path $env:GITHUB_WORKSPACE "vcpkg.json") | ConvertFrom-Json
+          $baseline = $manifest.'builtin-baseline'
+          if ([string]::IsNullOrWhiteSpace($baseline)) {
+              throw "Le builtin-baseline est absent de vcpkg.json"
+          }
+          git -C $vcpkgRoot fetch --no-tags origin $baseline
           if ($IsWindows) {
               & (Join-Path $vcpkgRoot "bootstrap-vcpkg.bat") -disableMetrics
           } else {
