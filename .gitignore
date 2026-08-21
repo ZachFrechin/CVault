@@ -1,0 +1,25 @@
+# Artefacts de configuration et de compilation CMake
+.cache/
+.codebase-memory/
+build/
+build-*/
+cmake-build-*/
+CMakeFiles/
+CMakeCache.txt
+CTestTestfile.cmake
+cmake_install.cmake
+install_manifest.txt
+compile_commands.json
+_deps/
+vcpkg_installed/
+
+# Coffres, fichiers temporaires et sorties locales
+*.vault
+*.vault.tmp
+*.tmp
+*.log
+
+# Fichiers propres a l'environnement de developpement
+.DS_Store
+.idea/
+.vscode/
