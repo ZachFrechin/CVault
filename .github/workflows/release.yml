@@ -28,7 +28,7 @@ jobs:
             platform: macos
             architecture: arm64
             archive: vault-macos-arm64.tar.gz
-          - os: windows-latest
+          - os: windows-2022
             platform: windows
             architecture: x64
             archive: vault-windows-x64.zip
