@@ -33,7 +33,7 @@ cmake --build --preset vcpkg-debug -j2
 ctest --test-dir build-vcpkg --output-on-failure
 ```
 
-La première configuration peut télécharger FTXUI. Le binaire est produit dans `build-vcpkg/password_manager`.
+La première configuration peut télécharger FTXUI. Le binaire est produit dans `build-vcpkg/vault`.
 
 ## Démarrer l'application
 
@@ -41,16 +41,16 @@ Le mot de passe maître n'est jamais accepté en argument. Il est demandé dans 
 
 ```sh
 # Utiliser le vault personnel par défaut
-./build-vcpkg/password_manager
+./build-vcpkg/vault
 
 # Même comportement, forme explicite
-./build-vcpkg/password_manager --vault
+./build-vcpkg/vault --vault
 
 # Utiliser un fichier précis (le dossier parent doit déjà exister)
-./build-vcpkg/password_manager --vault ./data/mon.vault
+./build-vcpkg/vault --vault ./data/mon.vault
 
 # Afficher l'aide sans accéder au vault
-./build-vcpkg/password_manager --help
+./build-vcpkg/vault --help
 ```
 
 Le vault par défaut est créé automatiquement avec son dossier applicatif :

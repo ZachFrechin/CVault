@@ -58,7 +58,7 @@ TEST_CASE("Le parseur CLI utilise le vault par defaut sans argument", "[cli]")
     StartupOptions options;
     std::string error;
 
-    REQUIRE(parse({"password_manager"}, options, error));
+    REQUIRE(parse({"vault"}, options, error));
     CHECK(options.use_default_vault);
     CHECK(options.vault_path.empty());
     CHECK_FALSE(options.show_help);
@@ -69,7 +69,7 @@ TEST_CASE("Le parseur CLI accepte --vault seul pour le vault par defaut", "[cli]
     StartupOptions options;
     std::string error;
 
-    REQUIRE(parse({"password_manager", "--vault"}, options, error));
+    REQUIRE(parse({"vault", "--vault"}, options, error));
     CHECK(options.use_default_vault);
     CHECK(options.vault_path.empty());
 }
@@ -79,7 +79,7 @@ TEST_CASE("Le parseur CLI accepte un chemin de vault explicite", "[cli]")
     StartupOptions options;
     std::string error;
 
-    REQUIRE(parse({"password_manager", "--vault", "/tmp/test.vault"}, options, error));
+    REQUIRE(parse({"vault", "--vault", "/tmp/test.vault"}, options, error));
     CHECK(options.vault_path == "/tmp/test.vault");
     CHECK_FALSE(options.use_default_vault);
     CHECK_FALSE(options.show_help);
@@ -90,7 +90,7 @@ TEST_CASE("Le parseur CLI expose l'aide sans mot de passe", "[cli]")
     StartupOptions options;
     std::string error;
 
-    REQUIRE(parse({"password_manager", "--help"}, options, error));
+    REQUIRE(parse({"vault", "--help"}, options, error));
     CHECK(options.show_help);
     CHECK(startup_usage().find("--vault") != std::string::npos);
 }
@@ -100,9 +100,9 @@ TEST_CASE("Le parseur CLI refuse les arguments inconnus ou incomplets", "[cli]")
     StartupOptions options;
     std::string error;
 
-    CHECK_FALSE(parse({"password_manager", "--vault", "--help"}, options, error));
-    CHECK_FALSE(parse({"password_manager", "--unknown"}, options, error));
-    CHECK_FALSE(parse({"password_manager", "--help", "--vault", "vault"}, options, error));
+    CHECK_FALSE(parse({"vault", "--vault", "--help"}, options, error));
+    CHECK_FALSE(parse({"vault", "--unknown"}, options, error));
+    CHECK_FALSE(parse({"vault", "--help", "--vault", "vault"}, options, error));
 }
 
 TEST_CASE("Le résolveur construit les chemins par defaut des plateformes", "[cli]")

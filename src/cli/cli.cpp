@@ -24,10 +24,10 @@
 namespace {
 
 constexpr char kUsage[] =
-    "Usage: password_manager\n"
-    "       password_manager --vault\n"
-    "       password_manager --vault <chemin>\n"
-    "       password_manager --help\n";
+    "Usage: vault\n"
+    "       vault --vault\n"
+    "       vault --vault <chemin>\n"
+    "       vault --help\n";
 
 constexpr char kDefaultPathUsage[] =
     "\nVault par defaut :\n"

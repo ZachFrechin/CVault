@@ -7,7 +7,7 @@ Cette recette couvre les interactions FTXUI qui restent volontairement hors des 
 ```text
 export VCPKG_ROOT=/Users/jack/vcpkg
 cmake --build --preset vcpkg-debug -j2
-./build-vcpkg/password_manager --vault /chemin/vers/mon.vault
+./build-vcpkg/vault --vault /chemin/vers/mon.vault
 ```
 
 Au premier lancement, le chemin doit être absent : saisir deux fois un mot de passe
