@@ -12,12 +12,15 @@ install_manifest.txt
 compile_commands.json
 _deps/
 vcpkg_installed/
+_CPack_Packages/
 
 # Coffres, fichiers temporaires et sorties locales
 *.vault
 *.vault.tmp
 *.tmp
 *.log
+vault-*.tar.gz
+vault-*.zip
 
 # Fichiers propres a l'environnement de developpement
 .DS_Store

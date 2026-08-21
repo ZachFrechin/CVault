@@ -1,5 +1,5 @@
 cmake_minimum_required(VERSION 3.21)
-project(vault LANGUAGES CXX)
+project(vault VERSION 0.1.0 LANGUAGES CXX)
 
 set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
@@ -12,6 +12,7 @@ find_package(Threads REQUIRED)
 include(CTest)
 
 # FTXUI remains fetched as the terminal UI dependency.
+set(FTXUI_ENABLE_INSTALL OFF CACHE BOOL "Do not install FTXUI development files with VaultCLI" FORCE)
 include(FetchContent)
 FetchContent_Declare(
     ftxui
@@ -50,6 +51,30 @@ target_include_directories(vaultcli_lib PUBLIC
 
 add_executable(vault main.cpp)
 target_link_libraries(vault PRIVATE vaultcli_lib)
+
+include(GNUInstallDirs)
+install(TARGETS vault
+    RUNTIME DESTINATION ${CMAKE_INSTALL_BINDIR}
+    BUNDLE DESTINATION .
+)
+install(FILES
+    README.md
+    AI_USAGE.md
+    DESTINATION ${CMAKE_INSTALL_DOCDIR}
+)
+
+set(CPACK_PACKAGE_NAME "vault")
+set(CPACK_PACKAGE_VENDOR "VaultCLI")
+set(CPACK_PACKAGE_DESCRIPTION_SUMMARY "Gestionnaire de mots de passe en terminal")
+set(CPACK_PACKAGE_VERSION ${PROJECT_VERSION})
+set(CPACK_PACKAGE_FILE_NAME
+    "vault-${PROJECT_VERSION}-${CMAKE_SYSTEM_NAME}-${CMAKE_SYSTEM_PROCESSOR}")
+if(WIN32)
+    set(CPACK_GENERATOR "ZIP")
+else()
+    set(CPACK_GENERATOR "TGZ")
+endif()
+include(CPack)
 
 if(BUILD_TESTING)
     find_package(Catch2 3 CONFIG REQUIRED)

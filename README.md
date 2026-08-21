@@ -35,6 +35,41 @@ ctest --test-dir build-vcpkg --output-on-failure
 
 La première configuration peut télécharger FTXUI. Le binaire est produit dans `build-vcpkg/vault`.
 
+## Installer `vault` depuis une release
+
+Les workflows GitHub Actions compilent et testent le projet sur Linux, macOS Intel, macOS Apple Silicon et Windows. Une release est publiée lorsqu'un tag `v*` est poussé :
+
+```sh
+git tag v0.1.0
+git push origin v0.1.0
+```
+
+Sur macOS ou Linux, l'installateur vérifie l'archive et son SHA-256, installe `vault` dans `~/.local/bin`, puis ajoute ce dossier au profil du shell :
+
+```sh
+curl --proto '=https' --tlsv1.2 -fsSL \
+  https://raw.githubusercontent.com/ZachFrechin/CVault/main/packaging/install.sh | sh
+```
+
+Ouvrez un nouveau terminal après l'installation, puis vérifiez :
+
+```sh
+vault --help
+```
+
+Pour installer une version précise, utilisez `VAULT_VERSION=0.1.0`. Pour choisir un autre dossier, utilisez `VAULT_INSTALL_DIR`; `VAULT_NO_PATH=1` désactive la modification automatique du profil.
+
+Sous Windows, téléchargez et exécutez le script PowerShell :
+
+```powershell
+Invoke-WebRequest `
+  https://raw.githubusercontent.com/ZachFrechin/CVault/main/packaging/install.ps1 `
+  -OutFile install.ps1
+PowerShell -ExecutionPolicy Bypass -File .\install.ps1
+```
+
+Le binaire est installé dans `%LOCALAPPDATA%\VaultCLI\bin` et ce dossier est ajouté au `PATH` utilisateur. Les archives publiées sont `vault-linux-x64.tar.gz`, `vault-macos-x64.tar.gz`, `vault-macos-arm64.tar.gz` et `vault-windows-x64.zip`.
+
 ## Démarrer l'application
 
 Le mot de passe maître n'est jamais accepté en argument. Il est demandé dans une invite masquée.
